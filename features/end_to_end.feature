@@ -7,4 +7,4 @@ Feature: End to end test
     Given a vending machine is awaiting coins
     Then the display should read INSERT COIN
     When a customer inserts a penny, nickel, dime and quarter
-    Then the display should read $.40
+    Then the display should read $0.40
