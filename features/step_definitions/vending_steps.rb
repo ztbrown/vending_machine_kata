@@ -3,7 +3,7 @@ Given "a vending machine is awaiting coins" do
 end
 
 Then /^the display should read (.*)$/ do |arg|
-  (vending_machine.display).should eq(arg)
+  expect(vending_machine.display).to eq(arg)
 end
 
 When "a customer inserts a penny, nickel, dime and quarter" do
