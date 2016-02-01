@@ -43,4 +43,16 @@ describe VendingMachine do
     end
   end
 
+  context 'when a quarter has been inserted' do
+    subject {VendingMachine.new}
+    before(:each) do
+      @coin = instance_double("Coin", :name => 'Quarter', :weight => 5.67)
+      subject.insert_coin(@coin)
+    end
+    it 'is expected to equal "$0.25"' do
+      expect(@coin).to have_received(:weight).exactly(1).times
+      expect(subject.display).to eq("$0.25")
+    end
+  end
+
 end
