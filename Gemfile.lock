@@ -80,3 +80,4 @@ DEPENDENCIES
   guard-cucumber
   guard-rspec
   rspec
+  rspec-mocks
