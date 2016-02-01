@@ -31,4 +31,16 @@ describe VendingMachine do
     end
   end
 
+  context 'when a dime has been inserted' do
+    subject {VendingMachine.new}
+    before(:each) do
+      @coin = instance_double("Coin", :name => 'Dime', :weight => 2.27)
+      subject.insert_coin(@coin)
+    end
+    it 'is expected to equal "$0.10"' do
+      expect(@coin).to have_received(:weight).exactly(1).times
+      expect(subject.display).to eq("$0.10")
+    end
+  end
+
 end
