@@ -1,9 +1,12 @@
 require 'vending_machine'
+require 'product'
 
 module RunsVendingMachine
   attr_reader :vending_machine
   def start_or_reset_vending_machine
-    @vending_machine ||= VendingMachine.new()
+    @vending_machine ||= VendingMachine.new({ products: [Product.new({name: 'Cola', price: 1.00}),
+                                              Product.new({name: 'Chips', price: 0.50}),
+                                              Product.new({name: 'Candy', price: 0.65})]})
     @vending_machine.reset
   end
 

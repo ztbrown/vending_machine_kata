@@ -18,6 +18,6 @@ When (/^a customer inserts "([^"]*)"$/) do |arg|
 end
 
 When (/^a customer presses the (.*) button$/) do |arg|
-  press_button(arg)
+  vending_machine.press_button_for(arg)
 end
 
