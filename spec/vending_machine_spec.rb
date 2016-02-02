@@ -59,7 +59,29 @@ describe VendingMachine do
   end
 
   describe 'vending products' do
-    
+
+    context 'when no coins have been inserted' do
+      subject { VendingMachine.new({products: [instance_double("Product", :name => 'Cola', :price => 1.00),
+                                               instance_double("Product", :name => 'Chips', :price => 0.50),
+                                               instance_double("Product", :name => 'Candy', :price => 0.65)]}) }
+      it 'should display \'PRICE $1.00\' when cola is selected' do
+        subject.press_button_for('Cola')
+        expect(subject.display).to eq("PRICE $1.00")
+      end
+
+      it 'should display \'PRICE $0.65\' when candy is selected' do
+        subject.press_button_for('Candy')
+        expect(subject.display).to eq("PRICE $0.65")
+      end
+
+      it 'should display \'PRICE $0.50\' when chips is selected' do
+        subject.press_button_for('Chips')
+        expect(subject.display).to eq("PRICE $0.50")
+      end
+
+    end
+
+
     context 'when the correct amount of money has been inserted' do
       subject { VendingMachine.new({ products: [instance_double("Product", :name => 'Cola', :price => 1.00),
                                     instance_double("Product", :name => 'Chips', :price => 0.50),

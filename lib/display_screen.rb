@@ -13,10 +13,12 @@ class DisplayScreen
     response_code = args[:response_code]
     if (response_code == ResponseCodes::VEND)
       @display = "THANK YOU"
+    elsif ((response_code == ResponseCodes::INSUFFICIENT_FUNDS) && (args[:product_price]))
+      @display = "PRICE $#{format_price(args[:product_price])}"
     elsif (total == 0)
       reset
     else
-      @display = "$#{'%.2f' % total}"
+      @display = "$#{format_price(total)}"
     end
   end
 
@@ -24,6 +26,10 @@ class DisplayScreen
 
   def reset
     @display = "INSERT COIN"
+  end
+
+  def format_price(price)
+    '%.2f' % price
   end
 
 end
