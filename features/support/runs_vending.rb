@@ -6,6 +6,16 @@ module RunsVendingMachine
     @vending_machine ||= VendingMachine.new()
     @vending_machine.reset
   end
+
+  def set_vending_machine_value(value)
+    value = '%.2f' % value.to_f
+    @vending_machine.instance_eval("@total = #{value}")
+    @vending_machine.instance_variable_get("@display_screen").send(:update, {total: value})
+  end
+
+  def press_button(button_name)
+
+  end
 end
 
 World RunsVendingMachine

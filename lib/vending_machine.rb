@@ -1,20 +1,37 @@
+require 'display_screen'
+require 'observer'
+require 'response_codes'
+
 class VendingMachine
+  include Observable
   COIN_VALUES = {2.5 => 0, 5 => 0.05, 2.27 => 0.10, 5.67 => 0.25}
 
-  attr_reader :display, :coins
-
-  def initialize
-    reset
+  def initialize(args = {}, ui = DisplayScreen)
     @total = 0
+    @products = args[:products]
+    @display_screen = ui.new(self)
+    reset
   end
 
   def reset
-    @display = "INSERT COIN"
+    @total = 0
+    notify({total: @total})
   end
 
   def insert_coin(coin)
-    @total += convert_coin_weight_to_value(coin)
-    update_display(@total)
+    notify({total: @total += convert_coin_weight_to_value(coin)})
+  end
+
+  def display
+    @display_screen.display
+  end
+
+  def press_button_for(product_name)
+    product = @products.find {|p| p.name == product_name}
+    if @total >= product.price
+      @total = @total - product.price
+      notify({total: @total, response_code: ResponseCodes::VEND})
+    end
   end
 
   private
@@ -23,12 +40,9 @@ class VendingMachine
     COIN_VALUES[coin.weight]
   end
 
-  def update_display(total)
-    if (total == 0)
-      reset
-    else
-      @display = "$#{'%.2f' % total}"
-    end
+  def notify(args)
+    changed
+    notify_observers(args)
   end
 
 end
