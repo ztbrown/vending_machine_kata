@@ -13,9 +13,6 @@ module RunsVendingMachine
     @vending_machine.instance_variable_get("@display_screen").send(:update, {total: value})
   end
 
-  def press_button(button_name)
-
-  end
 end
 
 World RunsVendingMachine

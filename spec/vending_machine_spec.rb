@@ -67,16 +67,19 @@ describe VendingMachine do
       it 'should display \'PRICE $1.00\' when cola is selected' do
         subject.press_button_for('Cola')
         expect(subject.display).to eq("PRICE $1.00")
+        expect(subject.display).to eq("INSERT COIN")
       end
 
       it 'should display \'PRICE $0.65\' when candy is selected' do
         subject.press_button_for('Candy')
         expect(subject.display).to eq("PRICE $0.65")
+        expect(subject.display).to eq("INSERT COIN")
       end
 
       it 'should display \'PRICE $0.50\' when chips is selected' do
         subject.press_button_for('Chips')
         expect(subject.display).to eq("PRICE $0.50")
+        expect(subject.display).to eq("INSERT COIN")
       end
 
     end
@@ -95,16 +98,48 @@ describe VendingMachine do
       it 'should display THANK YOU when cola is selected' do
         subject.press_button_for('Cola')
         expect(subject.display).to eq("THANK YOU")
+        expect(subject.display).to eq("INSERT COIN")
       end
 
       it 'should display THANK YOU when candy is selected' do
         subject.press_button_for('Candy')
         expect(subject.display).to eq("THANK YOU")
+        expect(subject.display).to eq("INSERT COIN")
       end
 
       it 'should display THANK YOU when chips is selected' do
         subject.press_button_for('Chips')
         expect(subject.display).to eq("THANK YOU")
+        expect(subject.display).to eq("INSERT COIN")
+      end
+    end
+
+    context 'when an insufficient amount of money has been inserted' do
+      subject { VendingMachine.new({ products: [instance_double("Product", :name => 'Cola', :price => 1.00),
+                                                instance_double("Product", :name => 'Chips', :price => 0.50),
+                                                instance_double("Product", :name => 'Candy', :price => 0.65)]}) }
+
+      before(:each) do
+        coin = instance_double("Coin", :name => 'Quarter', :weight => 5.67)
+        subject.insert_coin(coin)
+      end
+
+      it 'should display THANK YOU when cola is selected' do
+        subject.press_button_for('Cola')
+        expect(subject.display).to eq("PRICE $1.00")
+        expect(subject.display).to eq("$0.25")
+      end
+
+      it 'should display THANK YOU when candy is selected' do
+        subject.press_button_for('Candy')
+        expect(subject.display).to eq("PRICE $0.65")
+        expect(subject.display).to eq("$0.25")
+      end
+
+      it 'should display THANK YOU when chips is selected' do
+        subject.press_button_for('Chips')
+        expect(subject.display).to eq("PRICE $0.50")
+        expect(subject.display).to eq("$0.25")
       end
     end
   end

@@ -29,7 +29,7 @@ class VendingMachine
   def press_button_for(product_name)
     product = @products.find {|p| p.name == product_name}
     if @total >= product.price
-      @total = @total - product.price
+      @total = 0
       notify({total: @total, response_code: ResponseCodes::VEND})
     else
       notify({total: @total, response_code: ResponseCodes::INSUFFICIENT_FUNDS, product_price: product.price})
