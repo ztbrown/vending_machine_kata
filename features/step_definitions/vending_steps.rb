@@ -21,3 +21,7 @@ When (/^a customer presses the (.*) button$/) do |arg|
   vending_machine.press_button_for(arg)
 end
 
+Then(/^"([^"]*)" is placed in the coin return$/) do |arg|
+  expect(vending_machine.coin_return.map(&:price).inject(0, &:+)).to eq(arg.to_f)
+end
+

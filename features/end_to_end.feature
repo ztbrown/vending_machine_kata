@@ -60,3 +60,26 @@ Feature: End to end test
     Then the display should read PRICE $1.00
     Then the display should read $0.25
 
+  #As a vendor
+  #I want customers to receive correct change
+  #So that they will use the vending machine again
+  #When a product is selected that costs less than the amount of money in the machine, then the remaining amount is placed in the coin return.
+
+
+  Scenario: Place $1.25 in vending machine and push button for cola, collect change
+    When a customer inserts "1.25"
+    When a customer presses the Cola button
+    Then the display should read THANK YOU
+    Then "0.25" is placed in the coin return
+
+  Scenario: Place $1.25 in vending machine and push button for candy, collect change
+    When a customer inserts "1.25"
+    When a customer presses the Candy button
+    Then the display should read THANK YOU
+    Then "0.60" is placed in the coin return
+
+  Scenario: Place $1.25 in vending machine and push button for chips, collect change
+    When a customer inserts "1.25"
+    When a customer presses the Chips button
+    Then the display should read THANK YOU
+    Then "0.75" is placed in the coin return

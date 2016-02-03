@@ -142,6 +142,23 @@ describe VendingMachine do
         expect(subject.display).to eq("$0.25")
       end
     end
+
+    context 'when too much money has been inserted' do
+      subject { VendingMachine.new({ products: [instance_double("Product", :name => 'Cola', :price => 1.00),
+                                                instance_double("Product", :name => 'Chips', :price => 0.50),
+                                                instance_double("Product", :name => 'Candy', :price => 0.65)]}) }
+
+      before(:each) do
+        coin = instance_double("Coin", :name => 'Quarter', :weight => 5.67)
+        5.times{ subject.insert_coin(coin) }
+      end
+
+      it 'should put excess coins in the coin return' do
+        subject.press_button_for('Cola')
+        expect(subject.coin_return.map(&:price).inject(0, &:+)).to eq(0.25)
+      end
+
+    end
   end
 
 end
